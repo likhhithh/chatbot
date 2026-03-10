@@ -1,0 +1,37 @@
+# Node
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Python
+venv/
+venv_old/
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.env.local
+.venv
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Logs
+*.log
+backend/server.log
+frontend/dev.log
+
+# IDEs
+.vscode/
+.idea/
+.DS_Store
+
+# Misc
+.gemini/
+.agents/
+.agent/
+_agents/
+_agent/
+brain/
