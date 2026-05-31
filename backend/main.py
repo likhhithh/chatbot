@@ -1,10 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from routes import chat, upload
+import os
 
 app = FastAPI(title="Last Minute Revision Buddy API", version="1.0.0")
 
-# Allow all origins for local development
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -16,9 +18,14 @@ app.add_middleware(
 app.include_router(chat.router, prefix="/api", tags=["Chat"])
 app.include_router(upload.router, prefix="/api", tags=["Upload"])
 
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to the Last Minute Revision Buddy API"}
+STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
+
+if os.path.exists(STATIC_DIR):
+    app.mount("/assets", StaticFiles(directory=os.path.join(STATIC_DIR, "assets")), name="assets")
+
+    @app.get("/{full_path:path}")
+    def serve_frontend(full_path: str):
+        return FileResponse(os.path.join(STATIC_DIR, "index.html"))
 
 if __name__ == "__main__":
     import uvicorn
